@@ -81,11 +81,11 @@ def generateControlPointsCartesian(minRuffleWdith, maxRuffleWidth, minBaseWdith,
     controlPoints.append(controlPoints[-1]) # Force the line to end at the last generated point
     return controlPoints
 
-def testCartesian(numFold = 4):
+def testCartesian(numFold = 4, degree = 3):
     # Create a 3-dimensional B-spline Curve
     curve = BSpline.Curve()
     # Set degrees
-    curve.degree = 3
+    curve.degree = degree
     # Set control points
     # curve.ctrlpts = [[5, 0, 0], [0, 10, 0], [15, 10, 0], [10, 0, 0]]
     # Test the points generated for the cartesian coordinate
@@ -95,7 +95,7 @@ def testCartesian(numFold = 4):
     # Set knot vector
     # Ref: https://www.cl.cam.ac.uk/teaching/1999/AGraphHCI/SMAG/node4.html
     #curve.knotvector = [0, 0, 0, 0, 1, 1, 1, 1]
-    knotVectorLength = 1 + 3 * numFold + 4 + 2 # 4 = degree, 2 = start and end point
+    knotVectorLength = 1 + 3 * numFold + degree + 1 + 2 # 2 = start and end point
     curve.knotvector = list(range(0, knotVectorLength, 1))
     # Set evaluation delta (controls the number of curve points)
     curve.delta = 0.01 # Set to smaller to get smoother line
@@ -112,4 +112,4 @@ def testCartesian(numFold = 4):
     return curve_points
 
 if __name__ == "__main__":
-    testCartesian(7)
+    testCartesian(numFold = 8)
