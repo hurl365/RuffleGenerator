@@ -81,7 +81,7 @@ def generateControlPointsCartesian(minRuffleWdith, maxRuffleWidth, minBaseWdith,
     controlPoints.append(controlPoints[-1]) # Force the line to end at the last generated point
     return controlPoints
 
-def testCartesian(numFold = 4, degree = 3):
+def testCartesian(numFold = 4, degree = 3, resolution = 0.5):
     # Create a 3-dimensional B-spline Curve
     curve = BSpline.Curve()
     # Set degrees
@@ -98,7 +98,7 @@ def testCartesian(numFold = 4, degree = 3):
     knotVectorLength = 1 + 3 * numFold + degree + 1 + 2 # 2 = start and end point
     curve.knotvector = list(range(0, knotVectorLength, 1))
     # Set evaluation delta (controls the number of curve points)
-    curve.delta = 0.01 # Set to smaller to get smoother line
+    curve.delta = resolution # Set to smaller to get smoother line
     # Get curve points (the curve will be automatically evaluated)
     curve_points = curve.evalpts
     # Create a visualization configuration instance with no legend, no axes and set the resolution to 120 dpi
@@ -218,5 +218,5 @@ def testPolar(numFold = 4, degree = 3, radius = 20):
     return curve_points
 
 if __name__ == "__main__":
-    #testCartesian(numFold = 8)
-    testPolar(numFold = 8)
+    print(testCartesian(numFold = 8, resolution = 0.05))
+    #testPolar(numFold = 8)
