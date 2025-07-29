@@ -21,8 +21,8 @@ vertices = np.array([
 
 # Create 12 triangles of the cube (triplets of indices of the previous array, connect vertices to form triangles)
 faces = np.array([
-    [0, 3, 1],
     [1, 3, 2],
+    [0, 3, 1],
     [0, 4, 7],
     [0, 7, 3],
     [4, 5, 6],

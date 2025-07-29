@@ -68,13 +68,10 @@ def thickenHemline(hemline, thickness = 0.5):
         beta = beta + math.pi
     elif (prevPointY > currPointY) and (prevPointX < currPointX):
         beta = beta + math.pi
-    deltaAngle = beta + math.pi/2
+    deltaAngle = beta - math.pi/2
     # Calculate delta from the current point
     deltaX = thickness * math.cos(deltaAngle)
     deltaY = thickness * math.sin(deltaAngle)
-    if beta < 0:
-        deltaX = -deltaX
-        deltaY = -deltaY
     # Append the deviated point's coordinates
     plusDelta.append([currPointX + deltaX, currPointY + deltaY])
     minusDelta.append([currPointX - deltaX, currPointY - deltaY])
@@ -91,7 +88,7 @@ def testThickness(testHemline, thickness = 0.5):
     plt.xlabel("X-axis")
     plt.ylabel("Y-axis")
     plt.show()
-    return
+    return plusDelta, minusDelta
 
 if __name__ == "__main__":
     sampleHemline = np.array(testCartesian(numFold = 8, resolution = 0.01))
