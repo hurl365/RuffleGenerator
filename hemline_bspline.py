@@ -22,7 +22,8 @@ import random, math # To generate random set of numbers and convert coordinate
 def generateControlPointsCartesian(minRuffleWdith, maxRuffleWidth, minBaseWdith, maxBaseWidth,\
                                     # minDist, maxDist, \ Do not use base point system
                                     minHeight, maxHeight, \
-                                    numFolds, symmetricFold):
+                                    numFolds, symmetricFold, \
+                                    rng=None): # Added. controlled random
     numFolds = int(numFolds) # Force conversion of numFolds
     symmetricFold = bool(symmetricFold) # Force conversion of symmetricFold boolean
     if numFolds <= 0:
@@ -187,7 +188,7 @@ def generateControlPointsPolar(minRuffleWdith, maxRuffleWidth, minBaseWdith, max
 
     return controlPointsCartesian
 
-def testPolar(numFold = 4, degree = 3, radius = 20):
+def testPolar(numFold = 4, degree = 3, radius = 20, resolution = 0.5):
     # Create a 3-dimensional B-spline Curve
     curve = BSpline.Curve()
     # Set degrees
@@ -204,7 +205,7 @@ def testPolar(numFold = 4, degree = 3, radius = 20):
     knotVectorLength = 1 + 3 * numFold + degree + 1 + 2 # 2 = start and end point
     curve.knotvector = list(range(0, knotVectorLength, 1))
     # Set evaluation delta (controls the number of curve points)
-    curve.delta = 0.01 # Set to smaller to get smoother line
+    curve.delta = resolution # Set to smaller to get smoother line
     # Get curve points (the curve will be automatically evaluated)
     curve_points = curve.evalpts
     # Create a visualization configuration instance with no legend, no axes and set the resolution to 120 dpi

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-from hemline_bspline import testCartesian # Test code-generated line
+from hemline_bspline import testCartesian, testPolar # Test code-generated line
 
 def thickenHemline(hemline, thickness = 0.5):
     plusDelta = []
@@ -92,4 +92,5 @@ def testThickness(testHemline, thickness = 0.5):
 
 if __name__ == "__main__":
     sampleHemline = np.array(testCartesian(numFold = 8, resolution = 0.01))
+    sampleHemline = np.array(testPolar(numFold = 4, resolution = 0.01))
     testThickness(sampleHemline, thickness = 0.5)

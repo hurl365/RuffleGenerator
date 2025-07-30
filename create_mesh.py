@@ -3,8 +3,9 @@ from stl import mesh
 # To show the model using matplotlib
 from mpl_toolkits import mplot3d
 from matplotlib import pyplot
+import trimesh
 
-from hemline_bspline import testCartesian
+from hemline_bspline import testCartesian, testPolar
 from hemline_thickness import testThickness
 
 def makeCoordsPositive(coordinates):
@@ -59,8 +60,6 @@ def makeCurtain(topCurve, bottomCurve, height = 5):
     # Add 2 rightmost faces
     allFaces.append([n-1, nn-1, n+nn-1])
     allFaces.append([nn-1, nn+nn-1, n+nn-1])
-    print(allFaces)
-    print(allVertices)
     return np.array(allVertices), np.array(allFaces)
 
 def makeSTL(vertices, faces, filename='curtain.stl', dir='.'):
@@ -73,11 +72,34 @@ def makeSTL(vertices, faces, filename='curtain.stl', dir='.'):
     # Write the mesh to an STL file
     generatedMesh.save(dir+"/"+filename)
 
+def verifyMesh(filename='curtain.stl', dir='.'):
+    mesh = trimesh.load(dir+"/"+filename)
+    # Check for self-intersections
+    if not mesh.is_watertight or not mesh.is_volume:
+        print("Mesh is not watertight or manifold, attempting repair...")
+        # Attempt to repair the mesh
+        # This might involve filling holes, removing non-manifold edges, etc.
+        # The specific repair method depends on the nature of the error.
+        # For self-intersections, you might need more advanced tools or manual intervention.
+        # Example: Simple repair attempt (may not fix all intersection types)
+        mesh.fill_holes()
+        mesh.remove_degenerate_faces()
+        mesh.remove_duplicate_faces()
+        mesh.remove_invalid() # Removes non-manifold components and other issues
+
+        # Export the repaired mesh
+        mesh.export(dir+"/"+filename)
+        #print("Repair attempt completed. Check '{}'.".format(filename))
+    #else:
+        #print("Mesh is already watertight and manifold.")
+
 def testMesh():
-    sampleHemline = np.array(testCartesian(numFold = 8, resolution = 0.01))
+    #sampleHemline = np.array(testCartesian(numFold = 8, resolution = 0.01))
+    sampleHemline = np.array(testPolar(numFold = 20, resolution = 0.0001))
     plusDelta, minusDelta = testThickness(sampleHemline, thickness = 0.5)
     generatedVertices, generatedFaces = makeCurtain(plusDelta, minusDelta, height = 5)
     makeSTL(generatedVertices, generatedFaces, filename='curtain.stl', dir='.')
+    verifyMesh(filename='curtain.stl', dir='.')
 
 if __name__ == "__main__":
     testMesh()
