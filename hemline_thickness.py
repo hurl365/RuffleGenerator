@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-from hemline_bspline import testCartesian, testPolar # Test code-generated line
+from hemline_bspline import testCartesian, testPolar, testFullCircle # Test code-generated line
 
 def thickenHemline(hemline, thickness = 0.5):
     plusDelta = []
@@ -14,11 +14,8 @@ def thickenHemline(hemline, thickness = 0.5):
     currPointX = hemlineX[0]
     nextPointY = hemlineY[1]
     currPointY = hemlineY[0]
-    beta = math.atan((nextPointY - currPointY)/(nextPointX - currPointX))
-    if (nextPointY < currPointY) and (nextPointX < currPointX):
-        beta = beta + math.pi
-    elif (nextPointY > currPointY) and (nextPointX < currPointX):
-        beta = beta + math.pi
+    beta = None
+    beta = math.atan2((nextPointY - currPointY), (nextPointX - currPointX))
     deltaAngle = beta + math.pi/2
     # Calculate delta from the current point
     deltaX = thickness * math.cos(deltaAngle)
@@ -35,16 +32,8 @@ def thickenHemline(hemline, thickness = 0.5):
         prevPointY = hemlineY[pointIter - 1]
         nextPointY = hemlineY[pointIter + 1]
         currPointY = hemlineY[pointIter]
-        prevAngle = math.atan((prevPointY - currPointY) / (prevPointX - currPointX))
-        if (prevPointY < currPointY) and (prevPointX < currPointX):
-            prevAngle = prevAngle + math.pi
-        elif (prevPointY > currPointY) and (prevPointX < currPointX):
-            prevAngle = prevAngle + math.pi
-        nextAngle = math.atan((nextPointY - currPointY) / (nextPointX - currPointX))
-        if (nextPointY < currPointY) and (nextPointX < currPointX):
-            nextAngle = nextAngle + math.pi
-        elif (nextPointY > currPointY) and (nextPointX < currPointX):
-            nextAngle = nextAngle + math.pi
+        prevAngle = math.atan2((prevPointY - currPointY), (prevPointX - currPointX))
+        nextAngle = math.atan2((nextPointY - currPointY), (nextPointX - currPointX))
         openAngle = prevAngle - nextAngle
         deltaAngle = nextAngle + openAngle / 2.0
         # Calculate delta from the current point
@@ -63,11 +52,7 @@ def thickenHemline(hemline, thickness = 0.5):
     currPointX = hemlineX[hemline.shape[0] - 1]
     prevPointY = hemlineY[hemline.shape[0] - 2]
     currPointY = hemlineY[hemline.shape[0] - 1]
-    beta = math.atan((prevPointY - currPointY)/(prevPointX - currPointX))
-    if (prevPointY < currPointY) and (prevPointX < currPointX):
-        beta = beta + math.pi
-    elif (prevPointY > currPointY) and (prevPointX < currPointX):
-        beta = beta + math.pi
+    beta = math.atan2((prevPointY - currPointY), (prevPointX - currPointX))
     deltaAngle = beta - math.pi/2
     # Calculate delta from the current point
     deltaX = thickness * math.cos(deltaAngle)
@@ -93,4 +78,5 @@ def testThickness(testHemline, thickness = 0.5):
 if __name__ == "__main__":
     sampleHemline = np.array(testCartesian(numFold = 8, resolution = 0.01))
     sampleHemline = np.array(testPolar(numFold = 4, resolution = 0.01))
+    sampleHemline = np.array(testFullCircle(numFold = 20, resolution = 0.0001))
     testThickness(sampleHemline, thickness = 0.5)
