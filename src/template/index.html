@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>STL Generator Viewer</title>
+    <style>
+        body { margin: 0; font-family: sans-serif; }
+        canvas { width: 100vw; height: 100vh; display: block; }
+        form { position: absolute; z-index: 1; background: rgba(255,255,255,0.9); padding: 10px; top: 10px; left: 10px; border-radius: 8px; }
+        input, label { display: block; margin: 5px 0; }
+    </style>
+</head>
+<script type="module" src="/static/index.js"></script>
+<body>
+    <form id="paramsForm">
+        <label>Type:
+            <select name="type" required>
+                <option value="curtain">Curtain</option>
+                <option value="tube">Tube</option>
+                <option value="cape">Cape</option>
+                <option value="skirt">Skirt</option>
+            </select>
+        </label>
+        <label>numFolds: <input type="number" name="numFolds" value="5" min="1" max="100"></label>
+        <label>minRuffleWidth: <input type="number" name="minRuffleWidth" value="0.1" step="0.01"></label>
+        <label>maxRuffleWidth: <input type="number" name="maxRuffleWidth" value="0.3" step="0.01"></label>
+        <label>minBaseWidth: <input type="number" name="minBaseWidth" value="0.1" step="0.01"></label>
+        <label>maxBaseWidth: <input type="number" name="maxBaseWidth" value="0.3" step="0.01"></label>
+        <label>minHeight: <input type="number" name="minHeight" value="0.1" step="0.01"></label>
+        <label>maxHeight: <input type="number" name="maxHeight" value="0.3" step="0.01"></label>
+        <label>symmetricFold: <input type="checkbox" name="symmetricFold" checked></label>
+        <label>seed: <input type="number" name="seed" placeholder="Optional"></label>
+        <button type="submit">Generate</button>
+    </form>
+</body>
+</html>
