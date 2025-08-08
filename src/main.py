@@ -25,6 +25,9 @@ def generate_stl_with_seed(type: MeshType = MeshType.curtain,
                             maxBaseWidth: float = 0.3,
                             minHeight: float = 0.1,
                             maxHeight: float = 0.3,
+                            radius: float = 0.3,
+                            thickness: float = 0.5,
+                            resolution: float = 0.001,
                             symmetricFold: bool = False,
                             seed: int = None):
     # Use provided seed or generate one
@@ -57,6 +60,9 @@ def generate_stl(type: MeshType = Query(..., description="Type of mesh to genera
                 maxBaseWidth: float = Query(0.3),
                 minHeight: float = Query(0.1),
                 maxHeight: float = Query(0.3),
+                radius: float = Query(0.3),
+                thickness: float = Query(0.001),
+                resolution: float = Query(0.5),
                 symmetricFold: bool = Query(False),
                 seed: int = Query(None)):
     result = generate_stl_with_seed(seed)
